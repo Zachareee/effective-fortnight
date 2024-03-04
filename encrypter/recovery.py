@@ -28,7 +28,6 @@ def decrypt_key(path: str) -> bytes:
             )
     return key
 
-
 def read_key() -> bytes:
     path = os.path.join(os.getenv("LOCALAPPDATA"), "ransomware", "keyfile")
     if not os.path.exists(path):
