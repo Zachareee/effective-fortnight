@@ -1,3 +1,4 @@
 build
-txt files
+*.txt
 *.spec
+venv
