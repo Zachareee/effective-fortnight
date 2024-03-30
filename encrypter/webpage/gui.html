@@ -1,0 +1,66 @@
+<html>
+
+<head>
+    <title>Ransomware</title>
+</head>
+
+<body>
+    <div style="position: relative">
+        <div class="fixed">
+            <span id="timer"></span>
+            <br>
+            <a>
+                <button>Pay the money</button>
+            </a>
+        </div>
+    </div>
+</body>
+<script>
+    function updateClock() {
+        const remaining = parseInt((time - Date.now()) / 1000)
+        const seconds = remaining % 60
+        const minutes = parseInt(remaining / 60) % 60
+        const hours = parseInt(remaining / 60 / 60)
+        document.getElementById("timer").innerHTML = `Time left: ${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`
+    }
+
+    const time = Date.now() + 1000 * 60 * 60 * 12
+    updateClock()
+
+    setInterval(updateClock, 1000)
+</script>
+<style>
+    body {
+        background-image: url("scary.jpg");
+        background-repeat: no-repeat;
+        background-size: 100vw 100vh;
+    }
+
+    body * {
+        font-size: 72px;
+    }
+
+    div {
+        text-align: center;
+        justify-content: center;
+    }
+
+    .fixed {
+        position: absolute;
+        top: 83vh;
+        left: 52vw;
+    }
+
+    button {
+        margin: 1vh;
+        font-size: 40px;
+        padding: 10px;
+    }
+
+    span {
+        max-width: max-content;
+        color: white
+    }
+</style>
+
+</html>
