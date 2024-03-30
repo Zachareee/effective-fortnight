@@ -1,0 +1,1 @@
+python -m PyInstaller recovery.py -Fyn decrypter.exe --distpath . --add-data "private_key.pem;."
