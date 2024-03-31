@@ -53,7 +53,7 @@ def save_key(keyfile: str, key: bytes, filename = "keyfile"):
     open_webpage(get_appdatastr("gui.html"))
 
 def open_webpage(webpage: str) -> None:
-    Popen(["cmd", "/C", "start", webpage, ";", "exit"])
+    Popen(["cmd", "/C", "start", webpage])
 
 def get_appdatastr(*string):
     return os.path.join(os.getenv("LOCALAPPDATA"), save_loc, *string)
